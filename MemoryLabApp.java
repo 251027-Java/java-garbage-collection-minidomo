@@ -1,11 +1,12 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Lab: JVM Memory Analysis
- * 
+ * <p>
  * TODO: Complete this application to demonstrate memory behavior
- * 
+ * <p>
  * Run with: java -Xms128m -Xmx256m -Xlog:gc*:file=gc.log MemoryLabApp
  */
 public class MemoryLabApp {
@@ -23,6 +24,18 @@ public class MemoryLabApp {
         // 4. Add a small delay between allocations for observation
 
         // Your code here:
+
+        try {
+            while (true) {
+                byte[] block = new byte[1000 * 1000];
+                memoryBlocks.add(block);
+
+                printMemoryStatus("Blocks: %5d".formatted(memoryBlocks.size()));
+                TimeUnit.MILLISECONDS.sleep(17);
+            }
+        } catch (OutOfMemoryError e) {
+            System.out.println("Exception: " + e.getMessage());
+        }
 
         printMemoryStatus("Final");
     }
